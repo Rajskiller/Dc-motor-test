@@ -7,7 +7,7 @@ int main(void){
     int speeda=0,speedb=0;
     t5omsi();                               // Initialize timer5 1kHz
 
-    T1powerUpInitPWM(0xD);
+    T1powerUpInitPWM(0x0F);
     while (1)
     {
         if(t5expq())
