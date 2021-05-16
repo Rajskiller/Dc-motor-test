@@ -7,6 +7,8 @@ void T1powerUpInitPWM(uint16_t ch){
     if (ch&0x2) gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_1);
     if (ch&0x4) gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3);
     if (ch&0x8) gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_4);
+    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ,GPIO_PIN_5);
+    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING, GPIO_OSPEED_50MHZ,GPIO_PIN_6);
     rcu_periph_clock_enable(RCU_TIMER1);
 
     timer_parameter_struct timer_initpara;
@@ -33,6 +35,7 @@ void T1powerUpInitPWM(uint16_t ch){
     if (ch&0x2) timer_channel_output_config(TIMER1,TIMER_CH_1,&timer_ocinitpara);
     if (ch&0x4) timer_channel_output_config(TIMER1,TIMER_CH_2,&timer_ocinitpara);
     if (ch&0x8) timer_channel_output_config(TIMER1,TIMER_CH_3,&timer_ocinitpara);
+    
 
     if (ch&0x1) {
         timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_0,11999);
@@ -58,6 +61,8 @@ void T1powerUpInitPWM(uint16_t ch){
     timer_auto_reload_shadow_enable(TIMER1);
     timer_enable(TIMER1);
 }
+
+
 void TsetPWM(uint16_t ch, int value){
     timer_channel_output_pulse_value_config(TIMER1,ch,value); value;
 }

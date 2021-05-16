@@ -5,6 +5,7 @@
 
 int main(void){
     int speeda=0,speedb=0;
+    uint32_t button, sensor; 
     t5omsi();                               // Initialize timer5 1kHz
 
     T1powerUpInitPWM(0x0F);
@@ -12,8 +13,22 @@ int main(void){
     {
         if(t5expq())
         {
-            T1setPWMmotorB(speedb=+10000);
-            T1setPWMmotorA(speeda=+10000);
+            T1setPWMmotorB(speedb=0);
+            T1setPWMmotorA(speeda=0);
+            button = gpio_input_bit_get(GPIOA, GPIO_PIN_5);
+            sensor = gpio_input_bit_get(GPIOA, GPIO_PIN_6);
+            if (button ==0)
+            {
+                 T1setPWMmotorA(speeda=10);
+
+            }
+            if (sensor==0)
+            {
+                T1setPWMmotorB(speedb=10);
+            }
+            
+            
+            
             
         }
         
