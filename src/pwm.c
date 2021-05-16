@@ -1,6 +1,8 @@
 #include "pwm.h"
 
 void T1powerUpInitPWM(uint16_t ch){
+    timer_oc_parameter_struct timer_ocinitpara;
+    timer_parameter_struct timer_initpara;
     rcu_periph_clock_enable(RCU_GPIOA);
     rcu_periph_clock_enable(RCU_AF);
     if (ch&0x1) gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_0);
@@ -9,7 +11,6 @@ void T1powerUpInitPWM(uint16_t ch){
     if (ch&0x8) gpio_init(GPIOA, GPIO_MODE_AF_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_4);
     rcu_periph_clock_enable(RCU_TIMER1);
 
-    timer_parameter_struct timer_initpara;
     timer_deinit(TIMER1);
     timer_struct_para_init(&timer_initpara);
     timer_initpara.prescaler         = 107;
@@ -19,9 +20,7 @@ void T1powerUpInitPWM(uint16_t ch){
     timer_initpara.clockdivision     = TIMER_CKDIV_DIV1;
     timer_initpara.repetitioncounter = 0;
     timer_init(TIMER1, &timer_initpara);
-    timer_auto_reload_shadow_enable(TIMER1);
 
-    timer_oc_parameter_struct timer_ocinitpara;
     timer_channel_output_struct_para_init(&timer_ocinitpara);
     timer_ocinitpara.outputstate  = TIMER_CCX_ENABLE;
     timer_ocinitpara.outputnstate = TIMER_CCXN_DISABLE;
@@ -60,10 +59,13 @@ void T1powerUpInitPWM(uint16_t ch){
     timer_enable(TIMER1);
 }
 
+<<<<<<< HEAD
 
 void TsetPWM(uint16_t ch, int value){
     timer_channel_output_pulse_value_config(TIMER1,ch,value); value;
 }
+=======
+>>>>>>> parent of 4d86111 (1.0)
 
 
 void T1setPWMmotorA(int throttel){
