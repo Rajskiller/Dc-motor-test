@@ -4,37 +4,33 @@
 #include "pwm.h"
 
 int main(void){
+    rcu_periph_clock_enable(RCU_GPIOA);
+    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING,GPIO_OSPEED_50MHZ,GPIO_PIN_5);
+    gpio_init(GPIOA, GPIO_MODE_IN_FLOATING,GPIO_OSPEED_50MHZ,GPIO_PIN_6);
+    uint32_t btn, sen;
     int speeda=0,speedb=0;
-    //uint32_t button, sensor; 
-    t5omsi();                               // Initialize timer5 1kHz
+    t5omsi();                               
 
     T1powerUpInitPWM(0x0F);
     while (1)
     {
+        btn= gpio_input_bit_get(GPIOA, GPIO_PIN_5);
+        sen= gpio_input_bit_get(GPIOA, GPIO_PIN_6);
         if(t5expq())
         {
-            T1setPWMmotorB(speedb=-1000);
-            T1setPWMmotorA(speeda=+1000);
-            /*button = gpio_input_bit_get(GPIOA, GPIO_PIN_5);
-            sensor = gpio_input_bit_get(GPIOA, GPIO_PIN_6);
-            if (button ==0)
+            T1setPWMmotorB_forwards(speedb=+50);
+            T1setPWMmotorA_forwards(speeda=+50);
+            if (btn == 1)
             {
-                 T1setPWMmotorA(speeda=10);
-                 T1setPWMmotorB(speedb=10);
-
+                int time=0;
+                while(time!=10){
+                    T1setPWMmotorA_backwards(speeda=+50);
+                    T1setPWMmotorB_backwards(speedb);
+                    time++;
+                }
+               
+                
             }
-            else{
-                speeda=0;
-                speedb=0;
-                T1setPWMmotorA(speeda);
-                T1setPWMmotorB(speedb);
-
-            }
-            if (sensor==0)
-            {
-                T1setPWMmotorB(speedb=10);
-            }*/
-            
             
         }
         
