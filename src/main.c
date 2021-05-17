@@ -18,13 +18,15 @@ int main(void){
         sen= gpio_input_bit_get(GPIOA, GPIO_PIN_6);
         if(t5expq())
         {
-            T1setPWMmotorB_forwards(speedb=+50);
-            T1setPWMmotorA_forwards(speeda=+50);
+            speedb=50;
+            speeda=50;
+            T1setPWMmotorB_forwards(speedb);
+            T1setPWMmotorA_forwards(speeda);
             if (btn == 1)
             {
                 int time=0;
                 while(time!=10){
-                    T1setPWMmotorA_backwards(speeda=+50);
+                    T1setPWMmotorA_backwards(speeda);
                     T1setPWMmotorB_backwards(speedb);
                     time++;
                 }

@@ -32,7 +32,7 @@ void T1powerUpInitPWM(uint16_t ch){
     if (ch&0x1) timer_channel_output_config(TIMER1,TIMER_CH_0,&timer_ocinitpara);
     if (ch&0x2) timer_channel_output_config(TIMER1,TIMER_CH_1,&timer_ocinitpara);
     if (ch&0x4) timer_channel_output_config(TIMER1,TIMER_CH_2,&timer_ocinitpara);
-    if (ch&0x5) timer_channel_output_config(TIMER1,TIMER_CH_3,&timer_ocinitpara);
+    if (ch&0x8) timer_channel_output_config(TIMER1,TIMER_CH_3,&timer_ocinitpara);
     
 
     if (ch&0x1) {
@@ -50,7 +50,7 @@ void T1powerUpInitPWM(uint16_t ch){
         timer_channel_output_mode_config(TIMER1,TIMER_CH_2,TIMER_OC_MODE_PWM0);
         timer_channel_output_shadow_config(TIMER1,TIMER_CH_2,TIMER_OC_SHADOW_DISABLE);
     }
-   if (ch&0x5) {
+   if (ch&0x8) {
         timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_3,11999);
         timer_channel_output_mode_config(TIMER1,TIMER_CH_3,TIMER_OC_MODE_PWM0);
         timer_channel_output_shadow_config(TIMER1,TIMER_CH_3,TIMER_OC_SHADOW_DISABLE);
@@ -65,8 +65,7 @@ void TsetPWM(uint16_t ch, int value){
     timer_channel_output_pulse_value_config(TIMER1,ch,value); value;
 }
 
-
-void T1setPWMmotorA_forwards(int throttel){// forward
+void T1setPWMmotorA(int throttel){
     if (throttel) {
        timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_0,(throttel/100.0)*16000);
        timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_1,0);
@@ -75,16 +74,8 @@ void T1setPWMmotorA_forwards(int throttel){// forward
        timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_1,(-throttel/100.0)*16000);
     }
 }
-void T1setPWMmotorA_backwards(int throttel){// backwards
-    if (throttel) {
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_1,(throttel/100.0)*16000);
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_0,0);
-    } else {
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_1,0);
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_0,(-throttel/100.0)*16000);
-    }
-}
-void T1setPWMmotorB_forwards(int throttel){// forward
+
+void T1setPWMmotorB(int throttel){
      if (throttel) {
        timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_3,(throttel/100.0)*16000);
        timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_2,0);
@@ -94,13 +85,4 @@ void T1setPWMmotorB_forwards(int throttel){// forward
        timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_2,(-throttel/100.0)*16000);
     }
 }
-void T1setPWMmotorB_backwards(int throttel){// backwards
-     if (throttel) {
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_2,(throttel/100.0)*16000);
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_3,0);
-    } else {
 
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_2,0);
-       timer_channel_output_pulse_value_config(TIMER1,TIMER_CH_3,(-throttel/100.0)*16000);
-    }
-}
